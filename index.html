@@ -11,6 +11,10 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <script
+      src="https://kit.fontawesome.com/73b3712c52.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header class="text-bg-primary py-3 text-center fixed-top mb-5">
@@ -26,13 +30,25 @@
             placeholder="Search Your product"
             class="p-1 w-100 fs-4 form-control"
           />
-          <button class="btn btn-danger ms-2 px-4 fs-5" onclick="searchMeals()">
+          <button
+            class="btn btn-danger ms-2 px-4 fs-5"
+            onclick="SearchCategories()"
+          >
             Search
           </button>
         </div>
       </div>
     </header>
-
+    <!-- nav section start  -->
+    <!-- navBar -->
+    <section class="container" style="margin-top: 90px">
+      <nav
+        class="my-2 p-2 d-flex justify-content-around text-uppercase font-monospace fs-3 fw-semibold"
+        id="navItem"
+      ></nav>
+    </section>
+    <!-- nav section End -->
+    <section></section>
     <main class="container">
       <!-- card data -->
       <section class="container mt-5">
@@ -42,6 +58,51 @@
         ></div>
       </section>
       <!-- card data -->
+
+      <!-- modal section -->
+      <section>
+        <!-- Modal -->
+        <div
+          class="modal fade modal-xl px-3 py-3"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="text-end">
+                <button
+                  style="top: -20px; right: -30px"
+                  type="button"
+                  class="btn border-0 px-3 py-2 rounded-circle text-white bg-danger position-absolute fs-5 fw-semibold"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  X
+                </button>
+              </div>
+              <div class="modal-body" id="modalBody">
+                <div
+                  class="modal-body px-1 px-lg-4 py-1 py-lg-4 d-flex flex-column flex-md-row mb-3 justify-content-between gap-3 flex-column-reverse"
+                >
+                  <div
+                    style="background: #fef7f7"
+                    class="border border-1 border-danger-subtle p-1 p-lg-3 rounded-3 w-50"
+                    id="modal_content"
+                  ></div>
+                  <div
+                    class="border border-dark-subtle border-1 p-2 p-lg-3 rounded-2 w-50"
+                    id="modal_image"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <!-- bs script link -->
     <script
