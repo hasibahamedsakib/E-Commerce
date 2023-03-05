@@ -16,7 +16,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body>
+  <body onload="loadingSpinner(true)">
     <header class="text-bg-primary py-3 text-center fixed-top mb-5">
       <div class="d-flex justify-content-between container">
         <h1 class="">
@@ -48,7 +48,7 @@
       ></nav>
     </section>
     <!-- nav section End -->
-    <section></section>
+
     <main class="container">
       <!-- card data -->
       <section class="container mt-5">
@@ -103,7 +103,45 @@
           </div>
         </div>
       </section>
+
+      <!-- spinner -->
+      <!-- spinner section -->
+      <div
+        style="height: 86vh"
+        class="text-center d-flex mt-5 align-items-center justify-content-center d-none"
+        id="spinnerControl"
+      >
+        <div
+          class="spinner-border text-primary"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div
+          class="ms-1 spinner-grow text-warning"
+          style="width: 3rem; height: 3rem"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- spinner section End-->
     </main>
+
+    <!-- footer -->
+
+    <!-- <footer class="bg-black text-white text-center text-lg-start p-3">
+      
+      <div
+        class="text-center p-3 fs-5"
+        style="background-color: rgba(0, 0, 0, 0.2)"
+      >
+        © 2023 Copyright:
+      </div>
+      
+    </footer> -->
+
     <!-- bs script link -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

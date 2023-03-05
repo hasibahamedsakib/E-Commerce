@@ -17,7 +17,7 @@ const showNevItem = (data) => {
   let category_name = data
     .map(
       (category) =>
-        `<a class=" text-decoration-none text-primary "  onclick="fetchCategories('${category
+        `<a style="cursor:pointer" class=" text-decoration-none text-primary "  onclick="fetchCategories('${category
           .split("'")
           .join("")}')">${category}</a>`
     )
@@ -37,12 +37,10 @@ const SearchCategories = () => {
   const value = searchBar.value;
 
   fetchCategories(value);
-  searchBar.value = "";
 };
 
 //   card data show
 const displayCardData = (data) => {
-  console.log(data);
   const container = getElement("mainSection");
   container.innerHTML = "";
   data.forEach((element) => {
@@ -57,6 +55,7 @@ const displayCardData = (data) => {
             
             <h5  class="card-text " >$ ${price} </h5>
             <div class="d-flex text-danger justify-content-between my-2">
+            <h6  class="card-text text-danger" > ${category} </h6>
             <h6 > <i class="fas fa-eye"></i> ${rating.count}</h6>
             
 
@@ -69,7 +68,7 @@ const displayCardData = (data) => {
             </h6>
             </div>
             <div class="d-flex justify-content-between my-2">
-            <h6  class="card-text text-danger" > ${category} </h6>
+            
             <button onclick="getDetailId(${id})"
             type="button"
             class="btn btn-outline-success "
@@ -78,6 +77,14 @@ const displayCardData = (data) => {
           >
             See Details
           </button>
+            <button onclick="getOrderId(${id})"
+            type="button"
+            class="btn btn-outline-danger "
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            Order Now
+          </button>
             </div>
 
         </div>
@@ -85,6 +92,79 @@ const displayCardData = (data) => {
     `;
     container.appendChild(div);
   });
+  loadingSpinner(false);
+};
+
+// order option
+const getOrderId = (id) => {
+  fetch(`https://fakestoreapi.com/products/${id}`)
+    .then((res) => res.json())
+    .then((data) => showOrderData(data));
+};
+// show order data
+
+const showOrderData = (data) => {
+  const { id, category, image, price, title, rating, description } = data;
+
+  const content = getElement("modal_content");
+  const images = getElement("modal_image");
+
+  content.innerText = "";
+  images.innerText = "";
+
+  content.innerHTML += `
+       
+      <div class="card-body">
+      <h4 class="card-title py-2">${title}</h4>
+      <p class="card-text text-black-50 my-2">${description.slice(0, 150)}</p>
+          
+      
+      <h5  class="card-text" > ${category} </h5>
+
+      <div class="mt-4 text-center">
+        <div class="d-flex ">
+
+        <h5 class="text-primary me-3">Order Your Targeted Product Now</h5>
+        <h4  class="text-primary" >$ <span id="pricing">${price}</span> </h4>
+        
+           
+        </div> 
+        <div>
+        <span class="fs-4 fw-semibold text-primary me-1">Quantity : <span id="quantityvalue" class="fs-4 fw-semibold text-danger">1</span> <button class="btn btn-success" id="quantityPlus"> + </button> </span> <button class="btn btn-success" id="quantityMinus"> - </button>
+            <button class="btn btn-outline-primary" id="order">Order</button>
+
+        </div>
+      <div>
+   `;
+  document.getElementById("quantityPlus").addEventListener("click", () => {
+    document.getElementById("quantityvalue").innerText++;
+    let value = document.getElementById("quantityvalue").innerText;
+    let price = document.getElementById("pricing");
+    let priceValue = price.innerText;
+    priceValue = priceValue * (parseFloat(value) + 1);
+    price.innerHTML = priceValue;
+    console.log(priceValue);
+  });
+  document.getElementById("quantityMinus").addEventListener("click", () => {
+    document.getElementById("quantityvalue").innerText--;
+    let value = document.getElementById("quantityvalue").innerText;
+    let price = document.getElementById("pricing");
+    let priceValue = document.getElementById("pricing").innerText;
+    priceValue = priceValue - priceValue * parseFloat(value);
+
+    price.innerHTML = priceValue;
+    console.log(priceValue);
+  });
+
+  images.innerHTML += `
+      <span style="top: 40px; right: 50px" class="badge text-bg-danger p-2 fs-6 position-absolute">product no: ${id}</span>
+        
+
+        <div class="d-grid align-items-center justify-content-center" ">
+        <img src="${image} " class="w-100  rounded-3 " style="height:300px; "/>
+        </div>
+        
+      `;
 };
 
 const getDetailId = (id) => {
@@ -106,7 +186,10 @@ const showSingleData = (data) => {
       <div class="card-body">
       <h4 class="card-title py-2">${title}</h4>
       <p class="card-text text-black-50 fs-5">${description.slice(0, 150)}</p>
-          <p class="card-text text-black-50 fs-5">${description.slice(151)}</p>
+          <p class="card-text text-black-50 fs-5">${description.slice(
+            151,
+            250
+          )}</p>
       <h4  class="card-text" >$ ${price} </h4>
       <h5  class="card-text" > ${category} </h5>
 
@@ -130,9 +213,17 @@ const showSingleData = (data) => {
       <span style="top: 40px; right: 50px" class="badge text-bg-danger p-2 fs-6 position-absolute">product no: ${id}</span>
         
 
-        <div class="mx-auto" style="width: 300px;">
+        <div class="d-grid align-items-center justify-content-center" ">
         <img src="${image} " class="w-100  rounded-3 " style="height:300px; "/>
         </div>
         
       `;
+};
+// loading spinner
+const loadingSpinner = (isLoading) => {
+  // spinner
+  const spinner = document.getElementById("spinnerControl");
+  isLoading == true
+    ? spinner.classList.remove("d-none")
+    : spinner.classList.add("d-none");
 };
