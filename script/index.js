@@ -49,6 +49,10 @@ const displayCardData = (data) => {
     div.classList.add("col");
     div.innerHTML += `
     <div class="card  rounded-2 text-gray-50">
+      <div class="d-flex justify-content-end gap-2 p-2  display-6">
+      <i onclick="removeBookmark('${id}')" class="fa-solid fa-cart-shopping text-success"></i>
+      <i onclick="handleBookmark('${id}','${title}','${price}')" class="fa-solid fa-cart-plus text-primary"></i>
+      </div>
           <img src="${image}" class="card-img-top img-fluid rounded-3 px-lg-3 py-lg-3 p-2 " style="height:400px" />
           <div class="card-body">
             <h5 class="card-title">${title}</h5>
@@ -95,6 +99,40 @@ const displayCardData = (data) => {
   loadingSpinner(false);
 };
 
+// save data on localStorage
+const handleBookmark = (id, title, price) => {
+  const checkPrevBookmark = JSON.parse(localStorage.getItem("bookmark"));
+  let bookmark = [];
+  const product = { id, title, price };
+
+  if (checkPrevBookmark) {
+    const productFindMarked = checkPrevBookmark.find((pd) => pd.id === id);
+
+    if (productFindMarked) {
+      Swal.fire({
+        icon: "error",
+        title: "Already bookmarked",
+        text: "Do not add same product on multiple time!",
+      });
+    } else {
+      Swal.fire("Product bookmarked!", "You clicked the button!", "success");
+      bookmark.push(...checkPrevBookmark, product);
+      localStorage.setItem("bookmark", JSON.stringify(bookmark));
+    }
+  } else {
+    Swal.fire("Product bookmarked!", "You clicked the button!", "success");
+    bookmark.push(product);
+    localStorage.setItem("bookmark", JSON.stringify(bookmark));
+  }
+};
+
+// remove bookmark
+const removeBookmark = (id) => {
+  const findBookmarked = JSON.parse(localStorage.getItem("bookmark"));
+  const removeProduct = findBookmarked.filter((pd) => pd.id !== id);
+
+  console.log(removeProduct);
+};
 // order option
 const getOrderId = (id) => {
   fetch(`https://fakestoreapi.com/products/${id}`)
