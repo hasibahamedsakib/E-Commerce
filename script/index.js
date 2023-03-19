@@ -130,8 +130,7 @@ const handleBookmark = (id, title, price) => {
 const removeBookmark = (id) => {
   const findBookmarked = JSON.parse(localStorage.getItem("bookmark"));
   const removeProduct = findBookmarked.filter((pd) => pd.id !== id);
-
-  console.log(removeProduct);
+  localStorage.setItem("bookmark", JSON.stringify(removeProduct));
 };
 // order option
 const getOrderId = (id) => {
